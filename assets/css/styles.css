@@ -1,0 +1,54 @@
+html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -40px;
+  padding: 15px 15px;
+}
+
+
+/* adapted from http://maxwells.github.io/bootstrap-tags.html */
+
+.tag {
+  font-size: 14px;
+  padding: .3em .4em .4em;
+  margin: 0 .1em;
+}
+
+.tag a {
+  color: #bbb;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.tag a:hover {
+  opacity: 1.0
+}
+
+.tag .remove {
+  vertical-align: bottom;
+  top: 0;
+}
+
+.tag a {
+  margin: 0 0 0 .3em;
+}
+
+.tag a .glyphicon-white {
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+#flash-message-wrapper {
+  border-left: 1px solid #e7e7e7;
+  margin: 0 0 0 250px;
+  position: inherit;
+}
+
+#flash-inner-message {
+  margin: 0 auto;
+}

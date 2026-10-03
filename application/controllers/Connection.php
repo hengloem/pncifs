@@ -70,7 +70,7 @@ class Connection extends CI_Controller {
                 $this->session->set_userdata('lastname', $user_data['LastName']);
                 $this->session->set_userdata('is_admin',$user_data['IsAdministrator'] == "1");
 		$this->session->set_userdata('email', $user_data['EmailPN']);
-                $this->session->set_userdata('user_img', $user_data['Profile_img']);
+                $this->session->set_userdata('user_img', isset($user_data['Profile_img']) ? $user_data['Profile_img'] : '');
 //              echo $this->session->userdata('user_img');exit();
                 $this->session->set_userdata('is_tutor', $this->tutors_model->IsUserTutor($user_data['Id']));
                 $this->session->set_userdata('is_student', $this->students_model->IsUserStudent($user_data['Id']));

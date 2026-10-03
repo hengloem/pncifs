@@ -1,0 +1,11 @@
+FROM php:7.4-apache
+
+# Install mysqli extension
+RUN docker-php-ext-install mysqli
+
+# Enable Apache mod_rewrite for CodeIgniter URL routing
+RUN a2enmod rewrite
+
+# Ensure AllowOverride is set so .htaccess works (default image already has this,
+# but we make it explicit)
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf

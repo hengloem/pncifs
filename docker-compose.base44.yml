@@ -1,0 +1,44 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.base44
+    ports:
+      - "3000:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - CI_ENV=development
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=rootpass
+    command: ["sh", "-c", "chmod 755 /var/www/html && chown -R www-data:www-data application/cache application/logs uploads uploads_report && apache2-foreground"]
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "sh", "-c", "curl -sf http://localhost/ >/dev/null 2>&1 || curl -sf http://localhost/index.php >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: pncifs
+    volumes:
+      - ./sql/pncifs.sql:/docker-entrypoint-initdb.d/01-pncifs.sql:ro
+      - dbdata:/var/lib/mysql
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+volumes:
+  dbdata:

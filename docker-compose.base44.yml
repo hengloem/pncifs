@@ -29,7 +29,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: pncifs
-    command: --sql-mode=
+    command: --sql-mode= --lower_case_table_names=1
     volumes:
       - ./sql/pncifs.sql:/docker-entrypoint-initdb.d/01-pncifs.sql:ro
       - dbdata:/var/lib/mysql

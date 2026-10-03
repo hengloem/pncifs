@@ -19,10 +19,12 @@ The web app is served on **port 3000** (mapped to Apache port 80 inside the cont
 3. **Case-sensitive filenames**: Renamed model and controller files to `ucfirst` naming (e.g., `Students_model.php`, `Connection.php`) for Linux compatibility.
 4. **PHP 7.4 compatibility**: Fixed null count() and undefined index issues in Connection.php and Students_model.php.
 5. **Relative base_url**: Set `$config['base_url'] = '/'` in config.php so CI3 redirects use relative URLs (e.g., `Location: /connection/login`). Absolute URLs with the sandbox internal host would be unreachable by the browser through the preview proxy.
+6. **Case-sensitive controller routing**: Six controllers have mixed-case filenames (e.g., `SupervisorUsers.php`) that CI3's `ucfirst()` URL matching can't resolve on Linux. Added regex routes in `routes.php` (e.g., `$route['supervisorusers(.*)'] = 'SupervisorUsers$1';`) for: `Final_Report`, `Reminder_Student`, `StudentsUsers`, `SupervisorUsers`, `TutorsUsers`, `StudentsTutorsAssoc`.
+7. **Case-sensitive table names**: MySQL on Linux is case-sensitive for table names by default, but the app (originally developed on Windows) uses mixed-case table references. Fixed by starting MySQL with `--lower_case_table_names=1`. Requires a fresh DB volume (the setting must be present at initialization).
 
 ## Test credentials
 - **Admin**: `benoit.pitet@passerellesnumeriques.org` / `admin123`
-- The admin password is set via `password_hash('admin123', PASSWORD_DEFAULT)` — re-apply after DB volume reset.
+- The admin password is set via `password_hash('admin123', PASSWORD_DEFAULT)` — re-apply after DB volume reset. See the `docker compose exec` PHP one-liner in this session's history.
 
 ## Login flow
 1. `/` redirects to `/connection/login` (307) via `checkLogin()` helper if no session.

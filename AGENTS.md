@@ -18,6 +18,7 @@ The web app is served on **port 3000** (mapped to Apache port 80 inside the cont
 2. **MySQL 5.7 only_full_group_by**: Legacy queries select non-aggregated columns with GROUP BY. Fixed by starting MySQL with empty SQL mode.
 3. **Case-sensitive filenames**: Renamed model and controller files to `ucfirst` naming (e.g., `Students_model.php`, `Connection.php`) for Linux compatibility.
 4. **PHP 7.4 compatibility**: Fixed null count() and undefined index issues in Connection.php and Students_model.php.
+5. **Relative base_url**: Set `$config['base_url'] = '/'` in config.php so CI3 redirects use relative URLs (e.g., `Location: /connection/login`). Absolute URLs with the sandbox internal host would be unreachable by the browser through the preview proxy.
 
 ## Test credentials
 - **Admin**: `benoit.pitet@passerellesnumeriques.org` / `admin123`

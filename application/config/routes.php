@@ -67,6 +67,14 @@ $route['connection/forgetpassword'] = 'connection/forgetpassword';
 $route['connection/check/login'] = 'connection/check_login';
 $route['connection/register'] = 'connection/register';
 
+// Case-sensitive controller name fixes for Linux (CI3 ucfirst doesn't match mixed-case filenames)
+$route['final_report(.*)']        = 'Final_Report$1';
+$route['reminder_student(.*)']     = 'Reminder_Student$1';
+$route['studentsusers(.*)']        = 'StudentsUsers$1';
+$route['supervisorusers(.*)']      = 'SupervisorUsers$1';
+$route['tutorsusers(.*)']          = 'TutorsUsers$1';
+$route['studentstutorsassoc(.*)']  = 'StudentsTutorsAssoc$1';
+
 $route['default_controller'] = 'home/';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

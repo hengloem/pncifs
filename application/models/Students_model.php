@@ -54,7 +54,7 @@ class Students_model extends CI_Model {
 
     public function IsUserStudent($id) {
         $res = $this->getStudents($id);
-        if (count($res) > 0) {
+        if (!empty($res) && count($res) > 0) {
             return true;
         }
 

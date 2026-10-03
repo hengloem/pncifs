@@ -1,0 +1,41 @@
+/* =========================================================================
+   Bootstrap 3 Glyphicon font — preserved for backward compatibility
+   (Bootstrap 5 removed glyphicons; this keeps existing icons working)
+   ========================================================================= */
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('../bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('../bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+       url('../bootstrap/fonts/glyphicons-halflings-regular.woff2') format('woff2'),
+       url('../bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'),
+       url('../bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+       url('../bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Icons used in the application */
+.glyphicon-pencil:before          { content: "\270f"; }
+.glyphicon-trash:before           { content: "\e020"; }
+.glyphicon-download-alt:before    { content: "\e025"; }
+.glyphicon-share:before           { content: "\e066"; }
+.glyphicon-check:before           { content: "\e067"; }
+.glyphicon-arrow-left:before      { content: "\e091"; }
+.glyphicon-plus-sign:before       { content: "\e081"; }
+.glyphicon-circle-arrow-left:before { content: "\e132"; }
+.glyphicon-eye-open:before        { content: "\e105"; }
+.glyphicon-send:before            { content: "\e171"; }
+.glyphicon-floppy-disk:before     { content: "\e172"; }
+.glyphicon-floppy-remove:before   { content: "\e173"; }
+.glyphicon-white                  { color: #fff; }

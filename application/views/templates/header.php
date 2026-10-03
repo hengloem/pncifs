@@ -43,7 +43,14 @@
     <!-- Custom CSS -->
     <link href="<?php echo base_url();?>assets/css/styles.css" rel="stylesheet">
 
-    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Dark Mode Pro Theme (must be last) -->
+    <link href="<?php echo base_url();?>assets/css/modern-dark.css" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

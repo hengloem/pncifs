@@ -98,8 +98,11 @@ a:hover { color: var(--accent); text-decoration: none; }
   -webkit-backdrop-filter: blur(16px) saturate(1.6);
   border-bottom: 1px solid var(--border) !important;
   height: 60px;
+  min-height: 60px;
   z-index: 1000;
   box-shadow: 0 1px 12px rgba(0,0,0,.3);
+  display: flex !important;
+  align-items: center;
 }
 
 .navbar-default .navbar-brand {
@@ -107,26 +110,48 @@ a:hover { color: var(--accent); text-decoration: none; }
   font-weight: 700 !important;
   font-size: 1rem !important;
   letter-spacing: -.02em;
-  padding: 18px 15px !important;
+  padding: 0 15px !important;
+  line-height: 60px !important;
+  height: 60px !important;
+  display: inline-flex !important;
+  align-items: center;
+}
+
+.navbar-header {
+  display: flex !important;
+  align-items: center;
+  height: 60px;
+  flex: 1;
+  min-width: 0;
 }
 
 .navbar-header img {
   width: 36px !important;
   height: 36px !important;
-  margin: 12px 10px 12px 0 !important;
+  margin: 0 10px 0 12px !important;
   border-radius: 10px;
   filter: drop-shadow(0 2px 8px rgba(99,102,241,.3));
+  flex-shrink: 0;
 }
 
-.navbar-toggle { border-color: var(--border) !important; border-radius: var(--radius-sm); }
+.navbar-toggle {
+  border-color: var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  margin-top: 12px !important;
+  margin-bottom: 12px !important;
+  margin-right: 8px !important;
+}
 .navbar-toggle:hover { background: var(--bg-hover) !important; }
 .navbar-toggle .icon-bar { background: var(--text-secondary) !important; }
 
 .navbar-top-links {
-  display: flex;
-  align-items: center;
+  display: flex !important;
+  align-items: center !important;
   gap: 14px;
-  margin-right: 16px;
+  margin: 0 16px 0 0 !important;
+  height: 60px;
+  flex-shrink: 0;
+  float: none !important;
 }
 
 .navbar-top-links > label {
@@ -134,6 +159,7 @@ a:hover { color: var(--accent); text-decoration: none; }
   font-size: .875rem !important;
   font-weight: 400 !important;
   margin: 0 !important;
+  white-space: nowrap;
 }
 
 .navbar-top-links > .dropdown > a {
@@ -159,6 +185,11 @@ a:hover { color: var(--accent); text-decoration: none; }
   color: #fff !important;
   font-size: 16px !important;
   margin: 0 !important;
+}
+
+/* The sidebar is a direct child of the nav — take it out of the flex flow */
+.navbar-default.sidebar {
+  flex-shrink: 0;
 }
 
 /* --- Dropdown Menus --- */
@@ -684,11 +715,92 @@ input[type="checkbox"], input[type="radio"] {
 .bootbox.modal .modal-footer { border-top: 1px solid var(--border) !important; }
 .modal-backdrop { background: rgba(0,0,0,.65) !important; }
 
-/* --- Responsive: collapse sidebar on narrow screens --- */
-@media (max-width: 768px) {
-  #page-wrapper { padding: 16px !important; margin: 0 !important; border-left: none !important; }
-  .navbar-default.sidebar { position: fixed; top: 60px; left: 0; bottom: 0; z-index: 999; }
-  .navbar-top-links > label { display: none; }
+/* --- Responsive --- */
+
+/* Tablet: keep sidebar but tighten spacing */
+@media (max-width: 992px) {
+  #page-wrapper { padding: 20px 20px !important; }
+}
+
+/* Mobile: off-canvas sidebar + fixed header layout */
+@media (max-width: 767px) {
+  /* Page content: full width, no sidebar margin */
+  #page-wrapper {
+    padding: 16px !important;
+    margin: 0 !important;
+    border-left: none !important;
+  }
+
+  /* Hide SB-Admin-2 sidebar shell — the collapse panel handles the nav */
+  .navbar-default.sidebar {
+    position: fixed !important;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    width: 250px !important;
+    margin-top: 0 !important;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    border-right: 1px solid var(--border) !important;
+  }
+
+  /* Slide sidebar in when the Bootstrap collapse is open */
+  .navbar-default.sidebar:has(.navbar-collapse.in),
+  .navbar-default.sidebar:has(.navbar-collapse.collapsing) {
+    transform: translateX(0);
+  }
+
+  /* Backdrop overlay when sidebar is open */
+  #wrapper:has(.navbar-collapse.in)::after {
+    content: '';
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 998;
+    backdrop-filter: blur(2px);
+  }
+
+  /* Ensure the collapsed nav fills the sidebar panel */
+  .sidebar-nav.navbar-collapse {
+    height: auto !important;
+    padding: 12px 10px !important;
+  }
+
+  /* Welcome text hidden on mobile to save space */
+  .navbar-top-links > label { display: none !important; }
+
+  /* Smaller avatar on mobile */
+  .navbar-top-links { gap: 8px; margin-right: 10px !important; }
+  .navbar-top-links > .dropdown > a {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  /* Brand text truncates on very narrow screens */
+  .navbar-brand {
+    font-size: .85rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Tables scroll horizontally */
+  .table-responsive { overflow-x: auto; }
+
+  /* Panels full width */
+  .panel-body { padding: 16px !important; }
+}
+
+/* Very small phones */
+@media (max-width: 400px) {
+  .navbar-brand { max-width: 120px; }
+  #page-wrapper { padding: 12px !important; }
 }
 
 /* --- Smooth entrance animation --- */

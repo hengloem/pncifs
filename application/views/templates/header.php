@@ -13,8 +13,8 @@
     <meta name="author" content="">
 
    
-    <!-- Bootstrap Core CSS -->
-    <link href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5 CSS (replaced Bootstrap 3) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!--[if lt IE 9]>
     <script src="<?php echo base_url();?>assets/js/html5shiv.min.js"></script>
@@ -40,6 +40,12 @@
     <!-- Bootstrap Date-Picker Plugin -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/datepicker/css/bootstrap-datepicker3.css"/>
 
+    <!-- Bootstrap 3 Glyphicon font (compat — BS5 removed glyphicons) -->
+    <link href="<?php echo base_url();?>assets/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+    <!-- Bootstrap 3 → 5 Compatibility CSS -->
+    <link href="<?php echo base_url();?>assets/css/bootstrap-compat.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="<?php echo base_url();?>assets/css/styles.css" rel="stylesheet">
 
@@ -61,8 +67,8 @@
     
     <!-- jQuery -->
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-2.2.1.min.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script type="text/javascript" src="<?php echo base_url();?>assets/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap 5 JavaScript Bundle (replaced Bootstrap 3, includes Popper) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<?php echo base_url();?>assets/metisMenu/js/metisMenu.min.js"></script>
     
@@ -72,8 +78,8 @@
     <!-- Datatables -->
     <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/media/js/jquery.dataTables.min.js"></script>
 
-    <!-- bootbox code -->
-    <script src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
+    <!-- Bootstrap 3→5 Compat JS (data-attr shim + bootbox.confirm replacement) -->
+    <script src="<?php echo base_url();?>assets/js/bootstrap-compat.js"></script>
 
     <!-- Bootstrap Date-Picker Plugin -->
     <script type="text/javascript" src="<?php echo base_url();?>assets/datepicker/js/bootstrap-datepicker.min.js"></script>

@@ -1,0 +1,211 @@
+/* =========================================================================
+   Bootstrap 3 → Bootstrap 5 Compatibility Layer
+   Maps BS3 class names to BS5 equivalents so existing HTML works unchanged.
+   ========================================================================= */
+
+/* --- Panels → Cards --- */
+.panel {
+  background-color: var(--bs-body-bg, #fff);
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .375rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+}
+.panel > .panel-heading + .panel-collapse > .panel-body {
+  border-top: 1px solid rgba(0,0,0,.125);
+}
+.panel-heading {
+  padding: .75rem 1.25rem;
+  border-bottom: 1px solid rgba(0,0,0,.125);
+  border-top-left-radius: .375rem;
+  border-top-right-radius: .375rem;
+}
+.panel-body { padding: 1.25rem; }
+.panel-footer {
+  padding: .75rem 1.25rem;
+  background-color: rgba(0,0,0,.03);
+  border-top: 1px solid rgba(0,0,0,.125);
+  border-bottom-left-radius: .375rem;
+  border-bottom-right-radius: .375rem;
+}
+.panel-title { margin-bottom: 0; font-size: 1rem; font-weight: 500; }
+.panel-group .panel { margin-bottom: 0; border-radius: .375rem; }
+.panel-group .panel + .panel { margin-top: .3125rem; }
+.panel-group .panel-heading { border-bottom: 0; }
+.panel-default > .panel-heading {
+  background-color: rgba(0,0,0,.03);
+  color: inherit;
+}
+
+/* --- Floats --- */
+.pull-left { float: left !important; }
+.pull-right { float: right !important; }
+
+/* --- Screen reader --- */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* --- Navbar compat --- */
+.navbar-toggle {
+  display: none;
+  padding: .25rem .75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: .375rem;
+  cursor: pointer;
+}
+@media (max-width: 991.98px) {
+  .navbar-toggle { display: inline-block; }
+}
+.icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: currentColor;
+}
+.icon-bar + .icon-bar { margin-top: 4px; }
+.navbar-right { margin-left: auto !important; }
+.navbar-static-top { position: static; }
+
+/* --- Buttons --- */
+.btn-default {
+  color: #212529;
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+}
+.btn-default:hover {
+  background-color: #e2e6ea;
+  border-color: #c6cbd0;
+}
+
+/* --- Text alignment --- */
+.text-left { text-align: left !important; }
+.text-right { text-align: right !important; }
+
+/* --- Dropdowns (BS3 had <li><a>, BS5 uses .dropdown-item) --- */
+.dropdown-menu > li > a {
+  display: block;
+  padding: .25rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-color: #e9ecef;
+  color: #1e2125;
+}
+.dropdown-menu > .divider {
+  height: 0;
+  margin: .5rem 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(0,0,0,.15);
+}
+.dropdown-user { min-width: 200px; }
+
+/* --- Alerts --- */
+.alert-dismissable {
+  padding-right: 2.5rem;
+}
+.alert-dismissable .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: .5rem 1rem;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* --- Labels → Badges --- */
+.label {
+  display: inline-block;
+  padding: .25em .4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+}
+.label-default { background-color: #6c757d; color: #fff; }
+.label-primary { background-color: #0d6efd; color: #fff; }
+.label-success { background-color: #198754; color: #fff; }
+.label-info { background-color: #0dcaf0; color: #000; }
+.label-warning { background-color: #ffc107; color: #000; }
+.label-danger { background-color: #dc3545; color: #fff; }
+
+/* --- Images --- */
+.img-responsive { max-width: 100%; height: auto; }
+
+/* --- Form horizontal (BS3 used form-horizontal, BS5 uses grid) --- */
+.form-horizontal .control-label { text-align: right; }
+@media (min-width: 768px) {
+  .form-horizontal .control-label { text-align: right; }
+}
+
+/* --- Input group addon (BS3 → BS5 input-group-text) --- */
+.input-group-addon {
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: .375rem;
+}
+
+/* --- Breadcrumb (BS3 had > li, BS5 uses .breadcrumb-item) --- */
+.breadcrumb > li { display: inline-block; }
+.breadcrumb > li + li:before {
+  content: "/";
+  padding: 0 .5rem;
+  color: #6c757d;
+}
+
+/* --- Code compat --- */
+.col-xs-1 { flex: 0 0 auto; width: 8.33333%; }
+.col-xs-2 { flex: 0 0 auto; width: 16.66667%; }
+.col-xs-3 { flex: 0 0 auto; width: 25%; }
+.col-xs-4 { flex: 0 0 auto; width: 33.33333%; }
+.col-xs-5 { flex: 0 0 auto; width: 41.66667%; }
+.col-xs-6 { flex: 0 0 auto; width: 50%; }
+.col-xs-7 { flex: 0 0 auto; width: 58.33333%; }
+.col-xs-8 { flex: 0 0 auto; width: 66.66667%; }
+.col-xs-9 { flex: 0 0 auto; width: 75%; }
+.col-xs-10 { flex: 0 0 auto; width: 83.33333%; }
+.col-xs-11 { flex: 0 0 auto; width: 91.66667%; }
+.col-xs-12 { flex: 0 0 auto; width: 100%; }
+
+/* --- Modal close button compat (BS3 .close, BS5 .btn-close) --- */
+.close {
+  padding: 1rem;
+  margin: -.5rem -.5rem -.5rem auto;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  opacity: .5;
+}
+.close:hover { opacity: .75; }

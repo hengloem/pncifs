@@ -54,8 +54,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Dark Mode Pro Theme (must be last) -->
+    <!-- Dark Mode Pro Theme -->
     <link href="<?php echo base_url();?>assets/css/modern-dark.css" rel="stylesheet">
+
+    <!-- Tailwind CSS (Play CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        important: true,
+        corePlugins: { preflight: false },
+        theme: {
+          extend: {
+            colors: {
+              'pnc': { 50:'#f0f4f8', 100:'#e8edf3', 500:'#1e3a5f', 600:'#2a4a6f', 700:'#152d4a', 800:'#0f1f33', 900:'#0a1525' }
+            },
+            fontFamily: { 'sans': ['Inter','system-ui','sans-serif'] }
+          }
+        }
+      }
+    </script>
+
+    <!-- Tailwind Redesign Overrides (after modern-dark.css) -->
+    <link href="<?php echo base_url();?>assets/css/tailwind-redesign.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -84,6 +104,21 @@
     <!-- Bootstrap Date-Picker Plugin -->
     <script type="text/javascript" src="<?php echo base_url();?>assets/datepicker/js/bootstrap-datepicker.min.js"></script>
     
-    
+    <!-- MetisMenu BS5 compat — replace broken jQuery .collapse() with own toggle -->
+    <script>
+    $(function() {
+      try { $('#side-menu').metisMenu('remove'); } catch(e) {}
+      $('#side-menu > li > a').on('click', function(e) {
+        var $sub = $(this).siblings('ul.nav-second-level');
+        if ($sub.length) {
+          e.preventDefault();
+          var $parent = $(this).parent('li');
+          $parent.siblings().removeClass('active').find('ul.nav-second-level').removeClass('in');
+          $parent.toggleClass('active');
+          $sub.toggleClass('in');
+        }
+      });
+    });
+    </script>
   </head>
 <body>

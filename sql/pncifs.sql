@@ -320,7 +320,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`Id`, `EmailPN`, `LastConnection`, `Password`, `FirstName`, `LastName`, `IsAdministrator`, `SkypeID`, `IsSuspended`) VALUES
-(1, 'benoit.pitet@passerellesnumeriques.org', '2018-01-18 07:47:20', '$2y$10$6rd85ps3ffp/EIWySfAwoecG./DUtZR99ZaWfMvAiyM./lIzNzNuC', 'Benoit', 'Pitet', 1, 'beniot.pitet', 0),
+(1, 'benoit.pitet@passerellesnumeriques.org', '2018-01-18 07:47:20', '$2y$10$jlipu24y7sA79rx3tyc/1ehNlcQl10G.tjlFC0aJlUJchTpPfck6q', 'Benoit', 'Pitet', 1, 'beniot.pitet', 0),
 (2, 'sopheak.huy@passerellesnumeriques.org', '2018-01-17 08:09:04', '$2y$10$XbPqdUHzEV0R.hYeJw9AE.zFPOt8oZS7xVBCmGcAkUqIv6SrDWHDu', 'Sopheak', 'Huy', 0, 'sopheak.huy', 0),
 (3, 'seavmeang.chham@student.passerellesnumeriques.org', '2017-05-31 03:16:57', '$2y$10$ISvyb6uwFWxyz//dh/bcl.E71sbB3qWyuIeJZh2dm2e3oBIqTG5Cy', 'Seavmeng', 'Chham', 0, 'seavmeng', 0),
 (4, 'heng.loem@student.passerellesnumeriques.org', '2018-01-17 08:07:39', '$2y$10$SXXSf/odTf2ROJu0UqUaruuCPUJ30.pNU6dUsRR3aCpzZGOdGxQPW', 'heng', 'loem', 0, 'heng loem', 0),

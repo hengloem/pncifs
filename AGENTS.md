@@ -22,9 +22,19 @@ The web app is served on **port 3000** (mapped to Apache port 80 inside the cont
 6. **Case-sensitive controller routing**: Six controllers have mixed-case filenames (e.g., `SupervisorUsers.php`) that CI3's `ucfirst()` URL matching can't resolve on Linux. Added regex routes in `routes.php` (e.g., `$route['supervisorusers(.*)'] = 'SupervisorUsers$1';`) for: `Final_Report`, `Reminder_Student`, `StudentsUsers`, `SupervisorUsers`, `TutorsUsers`, `StudentsTutorsAssoc`.
 7. **Case-sensitive table names**: MySQL on Linux is case-sensitive for table names by default, but the app (originally developed on Windows) uses mixed-case table references. Fixed by starting MySQL with `--lower_case_table_names=1`. Requires a fresh DB volume (the setting must be present at initialization).
 
-## Test credentials
-- **Admin**: `benoit.pitet@passerellesnumeriques.org` / `admin123`
-- The admin password is set via `password_hash('admin123', PASSWORD_DEFAULT)` — re-apply after DB volume reset. See the `docker compose exec` PHP one-liner in this session's history.
+## Test credentials (seeded from `sql/pncifs.sql`, same as `Permission.txt`)
+- **Admin**: `benoit.pitet@passerellesnumeriques.org` / `123456`
+- **Tutor**: `sopheak.huy@passerellesnumeriques.org` / `123`
+- **Student**: `heng.loem@student.passerellesnumeriques.org` / `12345`
+
+These hashes are already in the seed file and verify as-is (bcrypt via `password_verify`).
+A wrong password renders the "Bad credentials" flash on `/connection/login`.
+Do **not** rewrite the seeded admin hash: it matches the repo's own `Permission.txt`.
+Quick check without a browser:
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" -d "email=benoit.pitet@passerellesnumeriques.org&password=123456" \
+  http://localhost:3000/connection/login   # expect 303 -> /
+```
 
 ## Login flow
 1. `/` redirects to `/connection/login` (307) via `checkLogin()` helper if no session.

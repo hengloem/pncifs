@@ -74,8 +74,10 @@
       }
     </script>
 
-    <!-- Tailwind Redesign Overrides (after modern-dark.css) -->
-    <link href="<?php echo base_url();?>assets/css/tailwind-redesign.css" rel="stylesheet">
+    <!-- Tailwind Redesign Overrides (after modern-dark.css)
+         Versioned with the file's mtime: browsers cache this stylesheet aggressively
+         and would otherwise keep showing a stale copy of the sidebar styling. -->
+    <link href="<?php echo base_url();?>assets/css/tailwind-redesign.css?v=<?php echo filemtime(FCPATH . 'assets/css/tailwind-redesign.css'); ?>" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

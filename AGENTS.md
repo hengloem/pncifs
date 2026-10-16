@@ -22,6 +22,8 @@ The web app is served on **port 3000** (mapped to Apache port 80 inside the cont
 6. **Case-sensitive controller routing**: Six controllers have mixed-case filenames (e.g., `SupervisorUsers.php`) that CI3's `ucfirst()` URL matching can't resolve on Linux. Added regex routes in `routes.php` (e.g., `$route['supervisorusers(.*)'] = 'SupervisorUsers$1';`) for: `Final_Report`, `Reminder_Student`, `StudentsUsers`, `SupervisorUsers`, `TutorsUsers`, `StudentsTutorsAssoc`.
 7. **Case-sensitive table names**: MySQL on Linux is case-sensitive for table names by default, but the app (originally developed on Windows) uses mixed-case table references. Fixed by starting MySQL with `--lower_case_table_names=1`. Requires a fresh DB volume (the setting must be present at initialization).
 
+8. **Stylesheet caching**: this app sends no cache headers, so browsers cache `assets/css/*.css` aggressively and keep rendering the old design. `header.php` therefore links `tailwind-redesign.css` with `?v=<?php filemtime(...) ?>`. Version any sheet you edit the same way (or hard-refresh), otherwise the preview looks unchanged.
+
 ## Test credentials (seeded from `sql/pncifs.sql`, same as `Permission.txt`)
 - **Admin**: `benoit.pitet@passerellesnumeriques.org` / `123456`
 - **Tutor**: `sopheak.huy@passerellesnumeriques.org` / `123`

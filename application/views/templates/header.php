@@ -83,6 +83,9 @@
          and would otherwise keep showing a stale copy of the sidebar styling. -->
     <link href="<?php echo base_url();?>assets/css/tailwind-redesign.css?v=<?php echo filemtime(FCPATH . 'assets/css/tailwind-redesign.css'); ?>" rel="stylesheet">
 
+    <!-- Content body redesign — "Lilac Hush" (main area of every page) -->
+    <link href="<?php echo base_url();?>assets/css/lilac-content.css?v=<?php echo filemtime(FCPATH . 'assets/css/lilac-content.css'); ?>" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

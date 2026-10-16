@@ -86,6 +86,9 @@
     <!-- Content body redesign — "Lilac Hush" (main area of every page) -->
     <link href="<?php echo base_url();?>assets/css/lilac-content.css?v=<?php echo filemtime(FCPATH . 'assets/css/lilac-content.css'); ?>" rel="stylesheet">
 
+    <!-- Form input layout — two fields per row (all .form-horizontal forms) -->
+    <link href="<?php echo base_url();?>assets/css/forms-layout.css?v=<?php echo filemtime(FCPATH . 'assets/css/forms-layout.css'); ?>" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

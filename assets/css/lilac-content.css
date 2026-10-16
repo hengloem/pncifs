@@ -1,0 +1,308 @@
+/* =========================================================================
+   Content body — "Lilac Hush"
+   Companion to the approved sidebar direction: the main content area of every
+   page (everything rendered between templates/menu.php's #page-wrapper and the
+   footer) picks up the same lilac palette, radii, surfaces and accent.
+
+   Scope: the content body only. The top navbar and the sidebar keep their own
+   designs, and the tailwind-built login page (no #page-wrapper) is untouched.
+
+   Loaded after modern-dark.css / tailwind-redesign.css, so equal-specificity
+   rules below win the cascade. Versioned by mtime in header.php (see AGENTS.md
+   #8) because browsers cache these sheets aggressively.
+   ========================================================================= */
+
+:root {
+  /* Surfaces */
+  --lh-canvas:       #f7f5fe;
+  --lh-surface:      #ffffff;
+  --lh-surface-soft: #faf9ff;
+  --lh-inset:        #efedfa;
+  --lh-hover:        #ece9fb;
+  /* Lines */
+  --lh-border:       #e8e4f4;
+  --lh-border-soft:  #f0eefa;
+  --lh-input-border: #ded8f2;
+  /* Accent */
+  --lh-accent:        #7c6cf0;
+  --lh-accent-strong: #6857e6;
+  --lh-accent-ink:    #7162dd;
+  --lh-ring:          rgba(124, 108, 240, .18);
+  /* Ink */
+  --lh-ink-strong: #403b70;
+  --lh-ink:        #55536b;
+  --lh-ink-soft:   #6b6784;
+  --lh-ink-muted:  #9a94bc;
+  /* Misc */
+  --lh-shadow:    0 1px 2px rgba(77, 64, 129, .05), 0 6px 18px rgba(77, 64, 129, .05);
+  --lh-shadow-lg: 0 10px 34px rgba(77, 64, 129, .12);
+  --lh-radius:    18px;
+  --lh-radius-sm: 12px;
+}
+
+/* --- Canvas ------------------------------------------------------------- */
+html, body, #wrapper { background: var(--lh-canvas) !important; }
+
+#page-wrapper {
+  background: transparent !important;
+  border-left: 0 !important;
+}
+
+/* --- Headings & rules --------------------------------------------------- */
+#page-wrapper h1,
+#page-wrapper h2,
+#page-wrapper h3,
+#page-wrapper h4 {
+  color: var(--lh-ink-strong) !important;
+  font-weight: 650 !important;
+  letter-spacing: -.01em !important;
+}
+#page-wrapper h2 { font-size: 1.3rem !important; }
+
+#page-wrapper hr {
+  border: 0 !important;
+  height: 1px !important;
+  background: var(--lh-border) !important;
+  margin: 18px 0 22px !important;
+}
+
+#page-wrapper a:not(.btn) { color: var(--lh-accent-ink) !important; }
+#page-wrapper a:not(.btn):hover { color: var(--lh-accent-strong) !important; }
+
+/* --- Cards (panels) ----------------------------------------------------- */
+.panel {
+  background: var(--lh-surface) !important;
+  border: 1px solid var(--lh-border) !important;
+  border-radius: var(--lh-radius) !important;
+  box-shadow: var(--lh-shadow) !important;
+}
+.panel > .panel-heading {
+  background: var(--lh-surface) !important;
+  border-bottom: 1px solid var(--lh-border) !important;
+  border-radius: var(--lh-radius) var(--lh-radius) 0 0 !important;
+  color: var(--lh-ink-strong) !important;
+}
+.panel-title {
+  color: var(--lh-ink-strong) !important;
+  font-weight: 650 !important;
+}
+.panel-body { color: var(--lh-ink) !important; }
+.panel-footer {
+  background: var(--lh-surface-soft) !important;
+  border-top: 1px solid var(--lh-border) !important;
+  border-radius: 0 0 var(--lh-radius) var(--lh-radius) !important;
+  color: var(--lh-ink-soft) !important;
+}
+.well {
+  background: var(--lh-surface) !important;
+  border: 1px solid var(--lh-border) !important;
+  border-radius: var(--lh-radius) !important;
+  box-shadow: var(--lh-shadow) !important;
+  color: var(--lh-ink) !important;
+}
+
+/* --- Tables ------------------------------------------------------------- */
+/* Framed table block; when the same box also holds a filter form (e.g. the
+   survey page), give the card some inner breathing room. */
+#page-wrapper .table-responsive {
+  background: var(--lh-surface) !important;
+  border: 1px solid var(--lh-border) !important;
+  border-radius: var(--lh-radius) !important;
+  box-shadow: var(--lh-shadow) !important;
+  padding: 0 !important;
+}
+#page-wrapper .table-responsive:has(form) { padding: 1.25rem !important; }
+
+@media (min-width: 768px) {
+  /* Round the table's own corners off inside the card */
+  #page-wrapper .table-responsive { overflow: hidden !important; }
+}
+@media (max-width: 767px) {
+  /* Never clip a wide table on small screens */
+  #page-wrapper .table-responsive { overflow-x: auto !important; }
+}
+
+#page-wrapper .table { color: var(--lh-ink) !important; }
+
+#page-wrapper .table > thead > tr > th {
+  background: var(--lh-inset) !important;
+  border-bottom: 1px solid var(--lh-border) !important;
+  border-color: var(--lh-border) !important;
+  color: var(--lh-ink-soft) !important;
+  font-weight: 600 !important;
+}
+
+#page-wrapper .table > tbody > tr > td {
+  background: transparent !important;
+  border-top: 1px solid var(--lh-border-soft) !important;
+  border-color: var(--lh-border-soft) !important;
+  color: var(--lh-ink) !important;
+}
+
+/* BS5 paints stripes and hover as an inset box-shadow on the cells, which
+   would sit on top of any row background — neutralise it, then colour the row. */
+#page-wrapper .table-striped > tbody > tr:nth-of-type(odd) > *,
+#page-wrapper .table-hover > tbody > tr:hover > * {
+  --bs-table-accent-bg: transparent !important;
+  --bs-table-bg-type: transparent !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+#page-wrapper .table-striped > tbody > tr:nth-of-type(odd) { background: var(--lh-surface-soft) !important; }
+#page-wrapper .table-hover > tbody > tr:hover { background: var(--lh-hover) !important; }
+
+#page-wrapper .table-bordered,
+#page-wrapper .table-bordered > thead > tr > th,
+#page-wrapper .table-bordered > tbody > tr > td {
+  border-color: var(--lh-border-soft) !important;
+}
+
+#page-wrapper .table > tbody > tr > td a .glyphicon { color: var(--lh-accent-ink) !important; }
+#page-wrapper .table > tbody > tr > td a:hover .glyphicon { color: var(--lh-accent-strong) !important; }
+
+/* --- DataTables --------------------------------------------------------- */
+.dataTables_wrapper { color: var(--lh-ink) !important; }
+
+.dataTables_filter input,
+.dataTables_length select {
+  background: var(--lh-surface) !important;
+  border: 1px solid var(--lh-input-border) !important;
+  border-radius: var(--lh-radius-sm) !important;
+  color: var(--lh-ink-strong) !important;
+}
+.dataTables_filter input:focus,
+.dataTables_length select:focus {
+  border-color: var(--lh-accent) !important;
+  box-shadow: 0 0 0 3px var(--lh-ring) !important;
+}
+
+.dataTables_paginate .paginate_button {
+  background: var(--lh-surface) !important;
+  border: 1px solid var(--lh-input-border) !important;
+  border-radius: 10px !important;
+  color: var(--lh-ink) !important;
+}
+.dataTables_paginate .paginate_button:hover {
+  background: var(--lh-inset) !important;
+  border-color: var(--lh-accent) !important;
+  color: var(--lh-accent-strong) !important;
+}
+.dataTables_paginate .paginate_button.current,
+.dataTables_paginate .paginate_button.current:hover {
+  background: var(--lh-accent) !important;
+  border-color: var(--lh-accent) !important;
+  color: #fff !important;
+}
+.dataTables_info { color: var(--lh-ink-muted) !important; }
+
+/* --- Forms -------------------------------------------------------------- */
+label, .control-label { color: var(--lh-ink-soft) !important; }
+
+.form-control {
+  background: var(--lh-surface) !important;
+  border: 1px solid var(--lh-input-border) !important;
+  border-radius: var(--lh-radius-sm) !important;
+  color: var(--lh-ink-strong) !important;
+}
+.form-control:focus {
+  background: var(--lh-surface) !important;
+  border-color: var(--lh-accent) !important;
+  box-shadow: 0 0 0 3px var(--lh-ring) !important;
+}
+.form-control::placeholder { color: var(--lh-ink-muted) !important; }
+
+select.form-control {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239a94bc' d='M6 8L2 4h8z'/%3E%3C/svg%3E") !important;
+}
+
+input[type="checkbox"], input[type="radio"] { accent-color: var(--lh-accent) !important; }
+
+/* --- Buttons ------------------------------------------------------------ */
+.btn {
+  border-radius: var(--lh-radius-sm) !important;
+  font-weight: 550 !important;
+}
+
+.btn-primary {
+  background: var(--lh-accent) !important;
+  border-color: var(--lh-accent) !important;
+  color: #fff !important;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background: var(--lh-accent-strong) !important;
+  border-color: var(--lh-accent-strong) !important;
+  color: #fff !important;
+}
+
+/* Secondary actions (Filter-adjacent "Read Survey", Back, …) */
+.btn-info, .btn-default {
+  background: var(--lh-surface) !important;
+  border-color: var(--lh-input-border) !important;
+  color: var(--lh-ink) !important;
+}
+.btn-info:hover,
+.btn-info:focus,
+.btn-default:hover,
+.btn-default:focus {
+  background: var(--lh-inset) !important;
+  border-color: var(--lh-accent) !important;
+  color: var(--lh-accent-strong) !important;
+}
+
+.btn-success {
+  background: #3aa17e !important;
+  border-color: #3aa17e !important;
+  color: #fff !important;
+}
+.btn-success:hover, .btn-success:focus {
+  background: #329072 !important;
+  border-color: #329072 !important;
+  color: #fff !important;
+}
+
+.btn-danger {
+  background: #e2576f !important;
+  border-color: #e2576f !important;
+  color: #fff !important;
+}
+.btn-danger:hover, .btn-danger:focus {
+  background: #d3455f !important;
+  border-color: #d3455f !important;
+  color: #fff !important;
+}
+
+/* --- Alerts ------------------------------------------------------------- */
+.alert { border-radius: var(--lh-radius-sm) !important; }
+.alert-info {
+  background: #f1efff !important;
+  border-color: #ded8f2 !important;
+  color: var(--lh-accent-ink) !important;
+}
+.alert-warning {
+  background: #fff8ec !important;
+  border-color: #f6dfb2 !important;
+  color: #96690f !important;
+}
+
+/* --- Breadcrumbs, modals ------------------------------------------------ */
+.breadcrumb {
+  background: var(--lh-surface) !important;
+  border: 1px solid var(--lh-border) !important;
+  border-radius: var(--lh-radius-sm) !important;
+}
+.breadcrumb > li > a { color: var(--lh-accent-ink) !important; }
+
+.modal-content {
+  border: 1px solid var(--lh-border) !important;
+  border-radius: var(--lh-radius) !important;
+  box-shadow: var(--lh-shadow-lg) !important;
+}
+.modal-header { border-bottom: 1px solid var(--lh-border) !important; }
+.modal-footer { border-top: 1px solid var(--lh-border) !important; }
+.modal-title {
+  color: var(--lh-ink-strong) !important;
+  font-weight: 650 !important;
+}
+.modal-body { color: var(--lh-ink) !important; }

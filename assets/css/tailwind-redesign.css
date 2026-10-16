@@ -331,9 +331,12 @@
     position: fixed !important;
     top: 4rem !important;
     left: 0 !important;
-    bottom: 0 !important;
+    /* Stop above the footer bar (it paints at z-index 1000) */
+    bottom: var(--footer-h, 52px) !important;
     width: 16rem !important;
-    z-index: 40 !important;
+    /* Must stay above the 998 dim layer (#wrapper::after), otherwise the open
+       drawer is covered by the backdrop: dimmed and unclickable. */
+    z-index: 999 !important;
     transform: translateX(-100%);
     transition: transform .3s cubic-bezier(.4,0,.2,1);
     overflow-y: auto !important;
@@ -345,6 +348,15 @@
   /* Override Bootstrap collapse display:none — we use transform instead */
   .navbar-default.sidebar.collapse:not(.show) {
     display: block !important;
+  }
+  /* The drawer lives inside the top <nav>, which is a flex item carrying
+     z-index: 50 and therefore a stacking context of its own — a backdrop at
+     998 would cover the whole drawer no matter how high the drawer's own
+     z-index is. Keep the dim layer below that context so it dims only the
+     page content behind the open drawer. */
+  #wrapper:has(.navbar-collapse.in)::after,
+  #wrapper:has(.navbar-collapse.show)::after {
+    z-index: 10 !important;
   }
   #page-wrapper {
     margin-left: 0 !important;
@@ -364,3 +376,154 @@
 .navbar-default.sidebar::-webkit-scrollbar { width: 6px; }
 .navbar-default.sidebar::-webkit-scrollbar-track { background: transparent; }
 .navbar-default.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+/* =========================================================================
+   Sidebar menu — "Lilac Hush" (approved design direction)
+   Section-scoped redesign of the left menu only: nothing outside
+   .navbar-default.sidebar / #side-menu is touched. Values come from the
+   approved spec, including its behaviour contract (hover / active /
+   focus-visible states, the sweep animation and the badge chip).
+   ========================================================================= */
+.navbar-default.sidebar {
+  background: #f6f4ff !important;
+  border-right: 1px solid #e5e0f5 !important;
+  border-radius: 0 24px 24px 0 !important;
+  box-shadow: 4px 0 18px rgba(77,64,129,.07) !important;
+  width: 320px !important;
+  padding: 28px 20px !important;
+  color: #3f3d56 !important;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif !important;
+}
+.navbar-default.sidebar::-webkit-scrollbar-thumb { background: #ded9f1 !important; }
+.sidebar-nav { padding: 0 !important; }
+
+/* Menu list */
+#side-menu {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#side-menu > li { margin: 0 !important; }
+
+/* Menu link */
+#side-menu a.link {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  min-height: 54px !important;
+  padding: 13px 14px !important;
+  gap: 13px !important;
+  border-radius: 15px !important;
+  color: #55536b !important;
+  text-decoration: none !important;
+  font-size: 14px !important;
+  font-weight: 550 !important;
+  line-height: 1.45 !important;
+  transition: background-color .18s, color .18s, box-shadow .18s !important;
+}
+#side-menu a.link:hover { background: #ece9fb !important; color: #423d73 !important; }
+#side-menu a.link:active { background: #e3dffd !important; }
+#side-menu a.link:focus-visible { outline: 2px solid #7c6cf0 !important; outline-offset: 2px !important; }
+
+/* Line icons */
+#side-menu a.link .icon {
+  width: 19px !important;
+  height: 19px !important;
+  flex: none !important;
+  color: #9a94bc !important;
+  display: grid !important;
+  place-items: center !important;
+}
+#side-menu a.link .icon svg {
+  width: 18px !important;
+  height: 18px !important;
+  display: block !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.7 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+#side-menu a.link .fa.arrow { color: #9a94bc !important; }
+
+/* Current page */
+#side-menu a.link.active,
+#side-menu > li.active > a {
+  position: relative !important;
+  background: #e0dcff !important;
+  color: #403b70 !important;
+  font-weight: 650 !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+}
+#side-menu a.link.active::before,
+#side-menu > li.active > a::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  background: linear-gradient(90deg, rgba(124,108,240,.22), rgba(124,108,240,0)) !important;
+  transform: scaleX(0) !important;
+  transform-origin: left !important;
+  animation: b44MenuSweep .75s cubic-bezier(.2,.7,.25,1) .12s forwards !important;
+}
+@keyframes b44MenuSweep {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+#side-menu a.link.active .icon,
+#side-menu > li.active > a .icon { color: #7c6cf0 !important; }
+
+/* "new" counter */
+#side-menu a.link .badge {
+  margin-left: auto !important;
+  border: 1px solid #c7befb !important;
+  background: #f7f5ff !important;
+  color: #7162dd !important;
+  border-radius: 999px !important;
+  padding: 3px 9px !important;
+  font-size: 11px !important;
+  font-weight: 650 !important;
+  line-height: 1.2 !important;
+}
+
+/* Administration group: plain header (never the pill) + inset children panel */
+#side-menu .nav-second-level {
+  list-style: none !important;
+  margin: 5px 0 0 0 !important;
+  padding: 7px !important;
+  background: #efedfa !important;
+  border: 1px solid #e8e4f4 !important;
+  border-radius: 16px !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+#side-menu .nav-second-level.in { display: flex !important; }
+#side-menu .nav-second-level a.link {
+  min-height: 43px !important;
+  padding: 10px 9px !important;
+  gap: 10px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+#side-menu .nav-second-level a.link .icon {
+  width: 17px !important;
+  height: 17px !important;
+  color: #aaa4c5 !important;
+}
+#side-menu > li > a.link.group-head {
+  background: transparent !important;
+  color: #494568 !important;
+  font-weight: 550 !important;
+}
+#side-menu > li > a.link.group-head::before { content: none !important; }
+#side-menu > li > a.link.group-head .icon { color: #897fe0 !important; }
+
+/* Sidebar footprint (the panel is now 320px wide) */
+@media (min-width: 768px) {
+  #page-wrapper { margin-left: 320px !important; }
+  .app-footer { padding-left: calc(320px + 2rem) !important; }
+}

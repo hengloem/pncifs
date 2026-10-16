@@ -1,0 +1,80 @@
+/* =========================================================================
+   Form input layout — two fields per row
+   Every data-entry form in this app is a legacy BS3 horizontal form:
+   `.form-horizontal` holding `label.col-sm-3.control-label` +
+   `div.col-sm-9` pairs. Bootstrap 5 dropped `.form-horizontal`, so those
+   label/input columns lost their row wrapper and stacked into a 25%/75%
+   staircase. This sheet re-lays each field as a grid cell with its label
+   directly above its input, two cells per row on desktop.
+
+   CSS only: markup, field names, ids and JS hooks are untouched, so no form
+   behaviour changes. Loaded after lilac-content.css so equal-specificity
+   rules win (see AGENTS.md #8 for the mtime cache-busting).
+   ========================================================================= */
+
+.form-horizontal {
+  display: grid !important;
+  /* Mobile keeps one field per row */
+  grid-template-columns: minmax(0, 1fr) !important;
+  column-gap: 1.5rem !important;
+  row-gap: 1.15rem !important;
+  align-items: start !important;
+}
+
+@media (min-width: 768px) {
+  .form-horizontal {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* --- One field = one cell ------------------------------------------------ */
+.form-horizontal > .form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Its BS3 label / input columns become full-width stacked blocks */
+.form-horizontal > .form-group > label,
+.form-horizontal > .form-group > [class*="col-"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 auto !important;
+  float: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.form-horizontal > .form-group > label { margin-bottom: .4rem !important; }
+
+/* BS3 right-aligned, offset labels do not fit a stacked layout */
+.form-horizontal label.control-label {
+  text-align: left !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* --- Blocks between fields span the whole row ---------------------------- */
+.form-horizontal > *:not(.form-group) { grid-column: 1 / -1 !important; }
+.form-horizontal > br { display: none !important; }
+
+/* --- Action rows and full-width fields take the whole row ---------------- */
+.form-horizontal > .form-group:has(button[type="submit"]),
+.form-horizontal > .form-group:has(.text-center),
+.form-horizontal > .form-group:has(.col-sm-12),
+.form-horizontal > .form-group:has(.col-md-12),
+/* `[class~=]` matches the whole class token, so col-md-12 is caught while
+   col-md-10 (a normal half-width field) is not. */
+.form-horizontal > .form-group[class~="col-12"],
+.form-horizontal > .form-group[class~="col-xs-12"],
+.form-horizontal > .form-group[class~="col-sm-12"],
+.form-horizontal > .form-group[class~="col-md-12"],
+.form-horizontal > .form-group[class~="col-lg-12"],
+.form-horizontal > .form-group[class~="col-xl-12"] {
+  grid-column: 1 / -1 !important;
+}

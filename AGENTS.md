@@ -22,9 +22,31 @@ The web app is served on **port 3000** (mapped to Apache port 80 inside the cont
 6. **Case-sensitive controller routing**: Six controllers have mixed-case filenames (e.g., `SupervisorUsers.php`) that CI3's `ucfirst()` URL matching can't resolve on Linux. Added regex routes in `routes.php` (e.g., `$route['supervisorusers(.*)'] = 'SupervisorUsers$1';`) for: `Final_Report`, `Reminder_Student`, `StudentsUsers`, `SupervisorUsers`, `TutorsUsers`, `StudentsTutorsAssoc`.
 7. **Case-sensitive table names**: MySQL on Linux is case-sensitive for table names by default, but the app (originally developed on Windows) uses mixed-case table references. Fixed by starting MySQL with `--lower_case_table_names=1`. Requires a fresh DB volume (the setting must be present at initialization).
 
-## Test credentials
-- **Admin**: `benoit.pitet@passerellesnumeriques.org` / `admin123`
-- The admin password is set via `password_hash('admin123', PASSWORD_DEFAULT)` — re-apply after DB volume reset. See the `docker compose exec` PHP one-liner in this session's history.
+8. **Stylesheet caching**: this app sends no cache headers, so browsers cache `assets/css/*.css` aggressively and keep rendering the old design. `header.php` therefore links `tailwind-redesign.css` with `?v=<?php filemtime(...) ?>`. Version any sheet you edit the same way (or hard-refresh), otherwise the preview looks unchanged.
+
+9. **Tailwind CDN utilities collide with Bootstrap class names**: `header.php` loads the Tailwind Play CDN with `important: true`, so every class in the markup that also happens to be a Tailwind utility gets an `!important` rule. `collapse` was the trap: Tailwind's `.collapse { visibility: collapse }` made Bootstrap `.collapse` elements invisible while they still took up layout space — the sidebar "Administration" sub-menu (`ul.nav-second-level.collapse.in`) rendered as a blank gap with 7 unreachable links. Fixed by disabling the `visibility` core plugin (`corePlugins: { preflight: false, visibility: false }`). If another Bootstrap class renders oddly (e.g. `border`, `shadow`, `table`, `container`), look for a same-named Tailwind utility first.
+
+10. **Content body theming**: the main area of every page (everything inside `#page-wrapper`, from `templates/menu.php` to `templates/footer.php`) is themed by `assets/css/lilac-content.css` — the "Lilac Hush" palette shared with the sidebar (`#f6f4ff` rail, `#f7f5fe` canvas, white cards, 18px radii, accent `#7c6cf0`). It is linked last in `header.php` (mtime-versioned, see #8) and must stay last so its equal-specificity rules win. Two traps it works around: Bootstrap 5 paints table stripes/hover as an inset `box-shadow` on the cells (so a row background alone shows nothing — the sheet neutralises the shadow first), and `.table-responsive` must keep `overflow-x: auto` below 768px or wide tables get clipped. The Tailwind login page has no `#page-wrapper` and is deliberately untouched.
+
+11. **Form input layout (two fields per row)**: every data-entry form is a legacy BS3 horizontal form — `.form-horizontal` holding `label.col-sm-3.control-label` + `div.col-sm-9` pairs — and BS5 dropped `.form-horizontal`, so the label/input columns had no row wrapper and stacked into a 25%/75% staircase. `assets/css/forms-layout.css` (linked after `lilac-content.css`) makes the form a grid: one field per cell with the label above the input, two cells per row ≥768px, one per row on phones. CSS only — no markup, field name, id or JS hook changed, so nothing about how forms submit is affected. Two gotchas: `:has()` matches descendants only, so a field row that carries its own width class (`div.form-group.col-md-12`, e.g. the survey's dynamic `#question_box`) needs the `[class~="col-md-12"]` token selectors to span the row, and `.form-horizontal .control-label { text-align: right }` from `bootstrap-compat.css` must stay overridden to `left` because labels now sit above their inputs.
+
+12. **Mobile drawer vs. the dim backdrop (stacking context)**: the off-canvas sidebar lives inside the top `<nav>`, which is a flex item carrying `z-index: 50` — a flex item with a z-index is its own stacking context, so no `z-index` on the drawer itself can lift it above a backdrop stacked higher. With the backdrop at `z-index: 998` the open drawer rendered dimmed and unclickable (clicks landed on `#wrapper` instead of the links). The backdrop is now kept below the nav's context (`z-index: 10`, set in `tailwind-redesign.css`), so it dims only the page content. The drawer's mobile rules (off-canvas transform, `bottom: var(--footer-h)`, `z-index: 999`) are in `tailwind-redesign.css` under `@media (max-width: 767px)`; the backdrop itself is declared in `modern-dark.css` (`#wrapper:has(.navbar-collapse.show)::after`).
+
+13. **List table restyle**: `assets/css/list-table.css` (linked after `forms-layout.css`) layers the lilac treatment over every `.table` inside `#page-wrapper` — caps header on a lilac band, hairline row separators instead of the old `.table-bordered` grid, a muted key column, 30px round action buttons, and DataTables chrome padding. It owns only what it changes; the card frame, the `--lh-*` tokens and the stripe/hover box-shadow neutralisation stay in `lilac-content.css`. Two traps: (a) `lilac-content.css` paints `th` with the `background` **shorthand** `!important`, which also resets `background-image` / `background-repeat` / `background-position` — that hid, then tiled, the DataTables sort arrows (`th.sorting*`), so `list-table.css` re-declares image + `no-repeat` + `center right` at higher specificity; when styling `th`, set `background-color`, never `background`. (b) Caps, tracking and no-wrap are scoped to `th:not(:only-child)` so single-cell tables (the report upload boxes, the survey question lists) keep their sentence-case, wrapping label.
+
+## Test credentials (seeded from `sql/pncifs.sql`, same as `Permission.txt`)
+- **Admin**: `benoit.pitet@passerellesnumeriques.org` / `123456`
+- **Tutor**: `sopheak.huy@passerellesnumeriques.org` / `123`
+- **Student**: `heng.loem@student.passerellesnumeriques.org` / `12345`
+
+These hashes are already in the seed file and verify as-is (bcrypt via `password_verify`).
+A wrong password renders the "Bad credentials" flash on `/connection/login`.
+Do **not** rewrite the seeded admin hash: it matches the repo's own `Permission.txt`.
+Quick check without a browser:
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" -d "email=benoit.pitet@passerellesnumeriques.org&password=123456" \
+  http://localhost:3000/connection/login   # expect 303 -> /
+```
 
 ## Login flow
 1. `/` redirects to `/connection/login` (307) via `checkLogin()` helper if no session.

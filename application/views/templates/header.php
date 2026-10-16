@@ -62,7 +62,11 @@
     <script>
       tailwind.config = {
         important: true,
-        corePlugins: { preflight: false },
+        /* `visibility` is disabled because Tailwind's `.collapse` utility
+           (visibility: collapse) collides with Bootstrap's own `.collapse`
+           class — e.g. the sidebar "Administration" sub-menu (`ul.collapse.in`)
+           kept its layout box but rendered invisible. */
+        corePlugins: { preflight: false, visibility: false },
         theme: {
           extend: {
             colors: {
@@ -74,8 +78,19 @@
       }
     </script>
 
-    <!-- Tailwind Redesign Overrides (after modern-dark.css) -->
-    <link href="<?php echo base_url();?>assets/css/tailwind-redesign.css" rel="stylesheet">
+    <!-- Tailwind Redesign Overrides (after modern-dark.css)
+         Versioned with the file's mtime: browsers cache this stylesheet aggressively
+         and would otherwise keep showing a stale copy of the sidebar styling. -->
+    <link href="<?php echo base_url();?>assets/css/tailwind-redesign.css?v=<?php echo filemtime(FCPATH . 'assets/css/tailwind-redesign.css'); ?>" rel="stylesheet">
+
+    <!-- Content body redesign — "Lilac Hush" (main area of every page) -->
+    <link href="<?php echo base_url();?>assets/css/lilac-content.css?v=<?php echo filemtime(FCPATH . 'assets/css/lilac-content.css'); ?>" rel="stylesheet">
+
+    <!-- Form input layout — two fields per row (all .form-horizontal forms) -->
+    <link href="<?php echo base_url();?>assets/css/forms-layout.css?v=<?php echo filemtime(FCPATH . 'assets/css/forms-layout.css'); ?>" rel="stylesheet">
+
+    <!-- List table restyle — "Lilac Hush" (every .table in the content body) -->
+    <link href="<?php echo base_url();?>assets/css/list-table.css?v=<?php echo filemtime(FCPATH . 'assets/css/list-table.css'); ?>" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

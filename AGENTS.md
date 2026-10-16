@@ -24,6 +24,8 @@ The web app is served on **port 3000** (mapped to Apache port 80 inside the cont
 
 8. **Stylesheet caching**: this app sends no cache headers, so browsers cache `assets/css/*.css` aggressively and keep rendering the old design. `header.php` therefore links `tailwind-redesign.css` with `?v=<?php filemtime(...) ?>`. Version any sheet you edit the same way (or hard-refresh), otherwise the preview looks unchanged.
 
+9. **Tailwind CDN utilities collide with Bootstrap class names**: `header.php` loads the Tailwind Play CDN with `important: true`, so every class in the markup that also happens to be a Tailwind utility gets an `!important` rule. `collapse` was the trap: Tailwind's `.collapse { visibility: collapse }` made Bootstrap `.collapse` elements invisible while they still took up layout space — the sidebar "Administration" sub-menu (`ul.nav-second-level.collapse.in`) rendered as a blank gap with 7 unreachable links. Fixed by disabling the `visibility` core plugin (`corePlugins: { preflight: false, visibility: false }`). If another Bootstrap class renders oddly (e.g. `border`, `shadow`, `table`, `container`), look for a same-named Tailwind utility first.
+
 ## Test credentials (seeded from `sql/pncifs.sql`, same as `Permission.txt`)
 - **Admin**: `benoit.pitet@passerellesnumeriques.org` / `123456`
 - **Tutor**: `sopheak.huy@passerellesnumeriques.org` / `123`

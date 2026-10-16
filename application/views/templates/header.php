@@ -62,7 +62,11 @@
     <script>
       tailwind.config = {
         important: true,
-        corePlugins: { preflight: false },
+        /* `visibility` is disabled because Tailwind's `.collapse` utility
+           (visibility: collapse) collides with Bootstrap's own `.collapse`
+           class — e.g. the sidebar "Administration" sub-menu (`ul.collapse.in`)
+           kept its layout box but rendered invisible. */
+        corePlugins: { preflight: false, visibility: false },
         theme: {
           extend: {
             colors: {

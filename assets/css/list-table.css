@@ -1,0 +1,135 @@
+/* =========================================================================
+   List tables — "Lilac Hush" restyle
+   -------------------------------------------------------------------------
+   Every list page (Tutor / Student / Supervisor accounts, Batch | Promotions,
+   Surveys, Reminders, Reports) renders the same legacy Bootstrap shell:
+
+       div.table-responsive > table.table.table-striped.table-bordered.table-hover
+
+   This sheet turns that grid into a calm lilac list: a quiet caps header on a
+   soft lilac band, roomy rows separated by hairlines instead of a full grid,
+   a muted key column, and the view / edit / delete icons as small round
+   buttons.
+
+   Layer: linked right after lilac-content.css, so its equal-specificity rules
+   win the cascade. lilac-content.css keeps ownership of the palette tokens
+   (--lh-*) and of the card frame around the table. mtime-versioned in
+   header.php (see AGENTS.md #8) because browsers cache these sheets hard.
+
+   CSS only — no markup, column, form field or JS hook is touched, so
+   filtering, sorting, paging and the delete confirmation behave as before.
+   ========================================================================= */
+
+:root {
+  --lt-band:      #f3f1fd;  /* header band            */
+  --lt-band-ink:  #8b85ad;  /* header label ink       */
+  --lt-hairline:  #f1effb;  /* row separator          */
+  --lt-zebra:     #fbfaff;  /* whisper zebra          */
+  --lt-row-hover: #f1eefc;  /* row hover              */
+  --lt-key-ink:   #a6a0c6;  /* first (key) column ink */
+}
+
+/* --- Table shell -------------------------------------------------------- */
+#page-wrapper .table { margin-bottom: 0 !important; }
+
+/* --- Header: caps on a lilac band, one hairline underneath -------------- */
+/* background-color only — never the `background` shorthand: DataTables paints
+   its sort arrows as a background-image on the header cells and the shorthand
+   would wipe them. */
+#page-wrapper .table > thead > tr > th {
+  background-color: var(--lt-band) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--lh-border) !important;
+  color: var(--lt-band-ink) !important;
+  font-size: .73rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .05em !important;
+  padding: .8rem 1.1rem !important;
+  vertical-align: middle !important;
+}
+
+/* Caps, tracking and no-wrap only for real column headers: a single-cell
+   table (the report upload boxes, the survey question lists) keeps its
+   sentence-case label and is still allowed to wrap. */
+#page-wrapper .table > thead > tr > th:not(:only-child) {
+  letter-spacing: .07em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+/* Room on the right for the sort arrow DataTables draws there. */
+#page-wrapper .table.dataTable > thead > tr > th { padding-right: 1.7rem !important; }
+
+/* Bring the sort arrows back. lilac-content.css paints the header band with the
+   `background` shorthand, which also resets image, repeat and position — so the
+   tables lost the one cue that says a column can be sorted. Re-declare all
+   three next to the image; the band colour and the reserved padding above stay
+   as they are. */
+#page-wrapper .table.dataTable > thead > tr > th.sorting,
+#page-wrapper .table.dataTable > thead > tr > th.sorting_asc,
+#page-wrapper .table.dataTable > thead > tr > th.sorting_desc {
+  background-repeat: no-repeat !important;
+  background-position: center right !important;
+}
+#page-wrapper .table.dataTable > thead > tr > th.sorting { background-image: url("../datatable/media/images/sort_both.png") !important; }
+#page-wrapper .table.dataTable > thead > tr > th.sorting_asc { background-image: url("../datatable/media/images/sort_asc.png") !important; }
+#page-wrapper .table.dataTable > thead > tr > th.sorting_desc { background-image: url("../datatable/media/images/sort_desc.png") !important; }
+
+/* --- Rows: hairline separators instead of a full grid ------------------- */
+#page-wrapper .table > tbody > tr > td {
+  border: 0 !important;
+  border-top: 1px solid var(--lt-hairline) !important;
+  color: var(--lh-ink) !important;
+  padding: .78rem 1.1rem !important;
+  vertical-align: middle !important;
+}
+#page-wrapper .table > tbody > tr:first-child > td { border-top: 0 !important; }
+
+/* Key column (ID / No) reads as a quiet reference. */
+#page-wrapper .table > tbody > tr > td:first-child {
+  color: var(--lt-key-ink) !important;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500 !important;
+}
+
+/* BS5 keeps the stripe and hover colours in an inset box-shadow on the cells
+   (a row background alone paints nothing) — clear them, then colour the row. */
+#page-wrapper .table-striped > tbody > tr:nth-of-type(odd) > *,
+#page-wrapper .table-hover > tbody > tr:hover > * {
+  --bs-table-accent-bg: transparent !important;
+  --bs-table-bg-type: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+#page-wrapper .table-striped > tbody > tr:nth-of-type(odd) { background-color: var(--lt-zebra) !important; }
+#page-wrapper .table-hover > tbody > tr:hover { background-color: var(--lt-row-hover) !important; }
+
+/* --- View / edit / delete icons become small round buttons -------------- */
+#page-wrapper .table > tbody > tr > td a:has(> .glyphicon):not(.btn) {
+  align-items: center;
+  border-radius: 9px;
+  color: var(--lh-accent-ink) !important;
+  display: inline-flex;
+  height: 30px;
+  justify-content: center;
+  transition: background-color .15s ease, color .15s ease;
+  width: 30px;
+}
+#page-wrapper .table > tbody > tr > td a:has(> .glyphicon):not(.btn):hover {
+  background-color: var(--lh-inset) !important;
+  color: var(--lh-accent-strong) !important;
+}
+#page-wrapper .table > tbody > tr > td a:has(> .glyphicon) .glyphicon { color: inherit !important; }
+
+/* --- DataTables chrome inside the card ---------------------------------- */
+#page-wrapper .dataTables_wrapper .dataTables_length,
+#page-wrapper .dataTables_wrapper .dataTables_filter { padding: 1.1rem 1.25rem .3rem; }
+#page-wrapper .dataTables_wrapper .dataTables_info,
+#page-wrapper .dataTables_wrapper .dataTables_paginate { padding: .2rem 1.25rem 1.1rem; }
+
+/* --- Phones: tighter cells so less of the table scrolls sideways -------- */
+@media (max-width: 767px) {
+  #page-wrapper .table > thead > tr > th,
+  #page-wrapper .table > tbody > tr > td { padding-left: .85rem !important; padding-right: .85rem !important; }
+  #page-wrapper .table.dataTable > thead > tr > th { padding-right: 1.5rem !important; }
+}

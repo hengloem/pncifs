@@ -7,8 +7,9 @@
 # The proxy target is PHP_ORIGIN, the origin server's public https URL. Set it
 # under [build.environment] below or in Netlify > Site settings > Environment
 # variables; netlify/build-redirects.sh writes ./netlify/_redirects from it.
-# Leave it unset and the build fails instead of publishing a site that answers
-# HTTP 502 for every request.
+# Leave it unset and the build still succeeds: it publishes the notice page in
+# ./netlify for every URL until a real origin is configured. A non-https value
+# fails the build.
 
 [build]
   publish = "netlify"

@@ -190,9 +190,11 @@ deploy:
 netlify deploy --prod
 ```
 
-A missing, empty or non-`https` `PHP_ORIGIN` fails the build on purpose. Without a real origin every
-URL on the site answers **HTTP 502** (`Netlify Edge`, `fwd-status=502`, empty body), because Netlify
-has nowhere to forward the request. If the site 502s, check that variable and that the origin is up:
+With `PHP_ORIGIN` unset the build still succeeds: no proxy rule is written, so every URL serves the
+static notice page in `netlify/index.html` ("not connected to the application yet") instead of failing
+the build or answering **HTTP 502**. Set the variable and redeploy to go live. A value that is set but
+not `https` fails the build, since that is a typo rather than a missing origin. If the site 502s, the
+variable points at an origin that is down — check it and the origin itself:
 
 ```bash
 curl -sI "$PHP_ORIGIN/" | head -1   # expect 200/302 from the origin itself

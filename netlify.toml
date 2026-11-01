@@ -1,0 +1,21 @@
+# Netlify as the public front door for the PHP origin server.
+#
+# Netlify cannot execute PHP: it only serves the placeholder page in ./netlify
+# and proxies every other request to the origin that actually runs this
+# CodeIgniter app (see "Deployment" in README.md).
+#
+# 1. Replace PHP_ORIGIN below with your origin server's public https URL.
+# 2. Deploy. The browser URL stays on the Netlify domain; Netlify rewrites each
+#    request to the origin and streams the response back, so CI3's relative
+#    base_url ('/') and the session cookie keep working unchanged.
+
+[build]
+  publish = "netlify"
+  # No build step: this app is rendered by PHP on the origin.
+  command = ""
+
+[[redirects]]
+  from = "/*"
+  to = "https://PHP_ORIGIN/:splat"
+  status = 200
+  force = true

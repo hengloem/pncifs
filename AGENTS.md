@@ -34,6 +34,14 @@ The web app is served on **port 3000** (mapped to Apache port 80 inside the cont
 
 13. **List table restyle**: `assets/css/list-table.css` (linked after `forms-layout.css`) layers the lilac treatment over every `.table` inside `#page-wrapper` — caps header on a lilac band, hairline row separators instead of the old `.table-bordered` grid, a muted key column, 30px round action buttons, and DataTables chrome padding. It owns only what it changes; the card frame, the `--lh-*` tokens and the stripe/hover box-shadow neutralisation stay in `lilac-content.css`. Two traps: (a) `lilac-content.css` paints `th` with the `background` **shorthand** `!important`, which also resets `background-image` / `background-repeat` / `background-position` — that hid, then tiled, the DataTables sort arrows (`th.sorting*`), so `list-table.css` re-declares image + `no-repeat` + `center right` at higher specificity; when styling `th`, set `background-color`, never `background`. (b) Caps, tracking and no-wrap are scoped to `th:not(:only-child)` so single-cell tables (the report upload boxes, the survey question lists) keep their sentence-case, wrapping label.
 
+14. **Bootstrap 3 classes BS5 dropped**: `bootstrap-compat.css` shims the ones the views still use. `col-md-offset-*` and `center-block` were missing, so the student registration page rendered its logo and card left-aligned instead of centred — both are mapped now. Add a shim there rather than editing views when another BS3-only class (`btn-xs`, `hidden-xs`, …) shows up.
+
+15. **Page rhythm**: legacy pages title with `<h1>`, newer ones with `<h2>`; `lilac-content.css` gives both the same size so the heading does not jump between pages. The same sheet pins the `style="margin-top: 5%"` card gap (it varied with viewport height) and the card/field spacing. Never reintroduce a percentage top margin on a panel.
+
+16. **Phone-width tables**: several list pages render a bare `<table>` with no `.table-responsive` box, so the table was clipped at the page edge. `list-table.css` makes any `#page-wrapper .table` a horizontal scroll container below 768px, then restores `display: table` for tables that already sit inside `.table-responsive` (that frame keeps its own scroll). The same block stacks the DataTables length/search/pagination chrome instead of squeezing it onto one row.
+
+17. **Icon font is Font Awesome 4.2.0**: `fa-user-plus` and `fa-id-card` do not exist in it and rendered as blank boxes on the home page (now `fa-users` / `fa-phone`). Check a glyph is present (`grep "\.fa-name:before" assets/font-awesome/css/font-awesome.min.css`) before using a newer icon name.
+
 ## Test credentials (seeded from `sql/pncifs.sql`, same as `Permission.txt`)
 - **Admin**: `benoit.pitet@passerellesnumeriques.org` / `123456`
 - **Tutor**: `sopheak.huy@passerellesnumeriques.org` / `123`

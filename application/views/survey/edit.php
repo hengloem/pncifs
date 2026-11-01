@@ -3,17 +3,16 @@
         border: 0;
         box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
     }
+    /* Sits under the question textarea — no pixel offsets, so it stays
+       inside the card at every screen width. */
     #btn_create_ques {
-        position: relative;
-        left: 450px;
-        top: -36px;
-        
+        margin-top: .5rem;
     }
     #row_question tr{
-        background: lightblue;
+        background: #f7f5fe;
     }
     #ques_edit tr{
-        background: pink;
+        background: #ece9fb;
     }
 </style>
 <div class="container-fluid" id="wrap">

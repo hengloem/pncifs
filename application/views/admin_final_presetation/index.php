@@ -26,7 +26,7 @@
                 ?>
             </select><br/>
             <form action="<?php echo base_url() ?>final_pres/upload_file/" method="post" enctype="multipart/form-data">
-                <input type="file" name="fileToUpload" id="fileToUpload"><br>
+                <input type="file" class="form-control" name="fileToUpload" id="fileToUpload"><br>
                 <button type="submit" class="btn btn-info"><i class="fa fa-upload"></i>Upload</button>
             </form>
         <br>

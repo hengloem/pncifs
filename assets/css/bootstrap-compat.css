@@ -209,3 +209,19 @@
   opacity: .5;
 }
 .close:hover { opacity: .75; }
+
+/* --- Column offsets (BS3 .col-md-offset-*, dropped in BS5) --- */
+.col-md-offset-1 { margin-left: 8.33333%; }
+.col-md-offset-2 { margin-left: 16.66667%; }
+.col-md-offset-3 { margin-left: 25%; }
+.col-md-offset-4 { margin-left: 33.33333%; }
+.col-md-offset-5 { margin-left: 41.66667%; }
+.col-md-offset-6 { margin-left: 50%; }
+.col-md-offset-7 { margin-left: 58.33333%; }
+.col-md-offset-8 { margin-left: 66.66667%; }
+.col-md-offset-9 { margin-left: 75%; }
+.col-md-offset-10 { margin-left: 83.33333%; }
+.col-md-offset-11 { margin-left: 91.66667%; }
+
+/* --- Centered block (BS3 .center-block, dropped in BS5) --- */
+.center-block { display: block; margin-left: auto; margin-right: auto; }

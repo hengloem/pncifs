@@ -364,12 +364,13 @@
   }
   .app-footer { padding-left: 1rem !important; }
   .navbar-top-links > label { display: none !important; }
-  .navbar-default .navbar-brand { max-width: 150px !important; }
+  /* Let the app name fit on one line instead of being cut mid-word */
+  .navbar-default .navbar-brand { max-width: none !important; font-size: .85rem !important; }
 }
 
 @media (max-width: 400px) {
   #page-wrapper { padding: 0.75rem !important; }
-  .navbar-default .navbar-brand { max-width: 110px !important; }
+  .navbar-default .navbar-brand { max-width: none !important; font-size: .78rem !important; }
 }
 
 /* --- Scrollbar --- */

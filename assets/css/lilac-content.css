@@ -306,3 +306,31 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--lh-accent) !im
   font-weight: 650 !important;
 }
 .modal-body { color: var(--lh-ink) !important; }
+
+/* --- Page rhythm -------------------------------------------------------- */
+/* Legacy pages title themselves with <h1>, the rest with <h2>; both get the
+   same size so the heading no longer jumps in size from page to page. */
+#page-wrapper h1 {
+  font-size: 1.3rem !important;
+  line-height: 1.35 !important;
+  margin: 0 0 .4rem !important;
+}
+#page-wrapper h2 { margin: 0 0 .4rem !important; }
+
+/* Most form pages carry `style="margin-top: 5%"` on their card, which turns
+   into a different gap on every screen height. Pin the card gap instead. */
+#page-wrapper .panel {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+#page-wrapper .panel-body { padding: 1.5rem 1.75rem !important; }
+
+/* Same field rhythm on the pages whose form is not a two-column grid */
+#page-wrapper .form-group { margin-bottom: 1.15rem !important; }
+
+@media (max-width: 767px) {
+  #page-wrapper h1,
+  #page-wrapper h2 { font-size: 1.15rem !important; }
+  #page-wrapper .panel { margin-top: 1rem !important; margin-bottom: 1rem !important; }
+  #page-wrapper .panel-body { padding: 1.25rem !important; }
+}

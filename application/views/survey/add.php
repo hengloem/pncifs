@@ -12,19 +12,19 @@
             margin: 0 auto;
         }
         #question_box tr {
-            background: pink;
+            background: #f7f5fe;
         } 
         #question_box tr:hover {
-            background: lightblue;
+            background: #ece9fb;
         }
         .no-border {
             border: 0;
             box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
         }
+        /* Sits under the question textarea — no pixel offsets, so it stays
+           inside the card at every screen width. */
         #btn_add {
-            position: relative;
-            left: 550px;
-            top: -34px;
+            margin-top: .5rem;
         }
 
     </style> 

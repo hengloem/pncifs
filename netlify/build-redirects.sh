@@ -4,11 +4,20 @@
 # Netlify cannot run PHP, so every request is proxied to the origin that runs
 # this CodeIgniter app. The target comes from PHP_ORIGIN — set it in
 # Netlify > Site settings > Environment variables, or in the [build.environment]
-# block of netlify.toml. An unset or non-https value fails the build, because a
-# deploy without a real origin answers HTTP 502 for every URL.
+# block of netlify.toml, and redeploy.
+#
+# Without PHP_ORIGIN the build still succeeds: it publishes the static notice
+# page from ./netlify for every URL, so the deploy shows "not connected yet"
+# instead of failing the build. A non-https value is still an error, because it
+# is a typo rather than a missing origin.
 set -eu
 
-: "${PHP_ORIGIN:?PHP_ORIGIN is not set. Add it in Netlify: Site settings > Environment variables, e.g. PHP_ORIGIN=https://origin.example.com}"
+if [ -z "${PHP_ORIGIN:-}" ]; then
+  printf '/*  /index.html  200\n' > netlify/_redirects
+  echo "PHP_ORIGIN is not set: publishing the setup notice page for every URL."
+  echo "Set PHP_ORIGIN to the origin's https URL in Netlify > Site settings > Environment variables (or netlify.toml [build.environment]), then redeploy to go live."
+  exit 0
+fi
 
 origin=${PHP_ORIGIN%/}
 case "$origin" in

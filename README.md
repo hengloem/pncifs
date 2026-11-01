@@ -148,6 +148,50 @@ Seeded from `sql/pncifs.sql` (same as `Permission.txt`):
 
 ---
 
+## Deployment
+
+This app is rendered by PHP and needs MySQL, so it cannot run on Netlify itself. Netlify is the
+public front door (domain + TLS): it proxies every request to an origin server that runs the app.
+
+### 1. Origin server (PHP + MySQL)
+
+Build and run this repo's `Dockerfile` on any container host (Render, Railway, Fly, Cloud Run, a VPS…):
+
+```bash
+docker build -t pncifs .
+docker run -d -p 80:80 \
+  -e DB_HOST=<host> -e DB_USER=<user> -e DB_PASS=<password> \
+  -v pncifs-uploads:/var/www/html/uploads \
+  -v pncifs-uploads-report:/var/www/html/uploads_report \
+  pncifs
+```
+
+The container runs Apache in CodeIgniter's `production` environment (`SetEnv CI_ENV production`, so
+errors are hidden and `db_debug` is off). Database settings come from `DB_HOST` / `DB_USER` / `DB_PASS`
+(see `application/config/database.php`).
+
+The database must be MySQL 5.7 started with `--sql-mode=` and `--lower_case_table_names=1`
+(AGENTS.md #2 and #7), seeded from `sql/pncifs.sql` — that file is excluded from the image by
+`.dockerignore`. Keep `uploads/` and `uploads_report/` on persistent volumes, otherwise uploaded
+reports and presentations are lost on redeploy.
+
+### 2. Netlify front door
+
+`netlify.toml` proxies `/*` to the origin and publishes only a placeholder page. Replace `PHP_ORIGIN`
+with the origin's https URL, then deploy:
+
+```bash
+netlify deploy --prod
+```
+
+Point the site's custom domain at Netlify. Because the proxy keeps the browser on the Netlify host,
+the app's relative `base_url` (`/`) and its session cookie work without further configuration. The
+origin receives Netlify's `Host` header, so it must accept that hostname (Apache does; a host-checking
+platform has to allow the Netlify domain).
+
+Limits of this setup: Netlify's proxy times out after 26 seconds, and every request — including
+`assets/` — is forwarded to the origin, so the origin serves all traffic.
+
 ## Known limitations
 
 - Legacy stack (CodeIgniter 3, PHP 7.4, MySQL 5.7) — this is teaching/demo material, not hardened software.

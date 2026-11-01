@@ -1,0 +1,12 @@
+.git
+.github
+netlify
+netlify.toml
+sql
+Dockerfile
+Dockerfile.base44
+.dockerignore
+docker-compose.base44.yml
+AGENTS.md
+Permission.txt
+application/logs/log-*

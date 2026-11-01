@@ -4,18 +4,18 @@
 # and proxies every other request to the origin that actually runs this
 # CodeIgniter app (see "Deployment" in README.md).
 #
-# 1. Replace PHP_ORIGIN below with your origin server's public https URL.
-# 2. Deploy. The browser URL stays on the Netlify domain; Netlify rewrites each
-#    request to the origin and streams the response back, so CI3's relative
-#    base_url ('/') and the session cookie keep working unchanged.
+# The proxy target is PHP_ORIGIN, the origin server's public https URL. Set it
+# under [build.environment] below or in Netlify > Site settings > Environment
+# variables; netlify/build-redirects.sh writes ./netlify/_redirects from it.
+# Leave it unset and the build fails instead of publishing a site that answers
+# HTTP 502 for every request.
 
 [build]
   publish = "netlify"
-  # No build step: this app is rendered by PHP on the origin.
-  command = ""
+  # No app build step: this app is rendered by PHP on the origin. The only
+  # build work is turning PHP_ORIGIN into the proxy rule.
+  command = "sh netlify/build-redirects.sh"
 
-[[redirects]]
-  from = "/*"
-  to = "https://PHP_ORIGIN/:splat"
-  status = 200
-  force = true
+[build.environment]
+  # Set the origin here instead of the Netlify UI if you prefer it in git:
+  # PHP_ORIGIN = "https://pncifs-origin.onrender.com"

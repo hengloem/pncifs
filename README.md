@@ -32,10 +32,11 @@ final report and presentation files each student submits at the end of the inter
 - **Surveys** — admins create surveys for a batch (title, description, deadline, questions with an order
   and a mandatory flag), publish them, and students answer, save drafts and submit. Two survey types are
   seeded: *Tutor Follow-up* and *Weekly Follow-up*.
-- **Follow-up and reports** — tutors (and admins acting as tutors) see the answers of their students,
-  leave follow-up reports on individual answers, and track which students have not completed a survey.
-- **Reminders** — admins send survey reminder e-mails to all students or to a selection, and students get
-  a "new reminder" badge in the navigation.
+- **Follow-up and reports** — tutors (and admins acting as tutors) see the answers of their students and
+  leave follow-up reports on individual answers.
+- **Reminders** — admins send survey reminder e-mails to all students or to a selection; the reminder page
+  lists the students who have not completed a survey, and students get a "new reminder" badge in the
+  navigation.
 - **Final report / final presentation** — students upload their files; admins and tutors browse them by
   batch, download them, and delete them. Admins also upload the templates students must use.
 - **Profiles** — users can open their own profile and change their password; admins can edit and delete

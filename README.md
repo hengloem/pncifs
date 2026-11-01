@@ -177,11 +177,25 @@ reports and presentations are lost on redeploy.
 
 ### 2. Netlify front door
 
-`netlify.toml` proxies `/*` to the origin and publishes only a placeholder page. Replace `PHP_ORIGIN`
-with the origin's https URL, then deploy:
+Netlify publishes only the placeholder page in `netlify/` and proxies `/*` to the origin. The proxy
+target is the `PHP_ORIGIN` environment variable — the origin's public https URL:
+
+- In the Netlify UI: **Site settings → Environment variables →** add `PHP_ORIGIN`, or
+- in `netlify.toml` under `[build.environment]` (see the commented example there).
+
+`netlify/build-redirects.sh` runs as the build command and writes `netlify/_redirects` from it, then
+deploy:
 
 ```bash
 netlify deploy --prod
+```
+
+A missing, empty or non-`https` `PHP_ORIGIN` fails the build on purpose. Without a real origin every
+URL on the site answers **HTTP 502** (`Netlify Edge`, `fwd-status=502`, empty body), because Netlify
+has nowhere to forward the request. If the site 502s, check that variable and that the origin is up:
+
+```bash
+curl -sI "$PHP_ORIGIN/" | head -1   # expect 200/302 from the origin itself
 ```
 
 Point the site's custom domain at Netlify. Because the proxy keeps the browser on the Netlify host,
